@@ -1,0 +1,12 @@
+{
+  "chmod": "0755",
+  "directories": [
+    "src", "vendor", "www"
+  ],
+  "alias": "httpbin.phar",
+  "git-version": "package_version",
+  "main": "www/index.php",
+  "output": "build/httpbin.phar",
+  "stub": "data/phar-stub.php",
+  "web": true
+}

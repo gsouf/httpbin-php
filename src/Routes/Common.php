@@ -8,7 +8,6 @@
 
 namespace HttpBin\Routes;
 
-
 use Zend\Diactoros\Response\HtmlResponse;
 
 class Common
@@ -18,8 +17,8 @@ class Common
      * @route.path /ping
      * @route.name ping
      */
-    public function ping(){
+    public function ping()
+    {
         return new HtmlResponse("pong");
     }
-
 }

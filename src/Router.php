@@ -5,7 +5,6 @@
 
 namespace HttpBin;
 
-
 use Aura\Router\Route;
 use Aura\Router\RouterContainer;
 use Minime\Annotations\Cache\ArrayCache;
@@ -14,7 +13,8 @@ use Minime\Annotations\Reader;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\ServerRequest;
 
-class Router {
+class Router
+{
 
     private $annotationReader;
     /**
@@ -22,16 +22,18 @@ class Router {
      */
     private $routerContainer;
 
-    public function __construct($basePath = null){
+    public function __construct($basePath = null)
+    {
         $this->routerContainer = new RouterContainer($basePath);
     }
 
-    public function fromClassAnnotation($classInstance){
+    public function fromClassAnnotation($classInstance)
+    {
 
         $reflection = new \ReflectionClass($classInstance);
 
-        foreach($reflection->getMethods() as $method){
-            if($method->isPublic()){
+        foreach ($reflection->getMethods() as $method) {
+            if ($method->isPublic()) {
                 $this->tryAddRouteForMethod($classInstance, $method);
             }
         }
@@ -40,17 +42,19 @@ class Router {
     /**
      * @return Route[]
      */
-    public function getRoutes(){
+    public function getRoutes()
+    {
         return $this->routerContainer->getMap()->getRoutes();
     }
 
-    public function fromArray($routesArray){
+    public function fromArray($routesArray)
+    {
 
-        if(!isset($routesArray["path"])){
+        if (!isset($routesArray["path"])) {
             throw new \Exception("Invalid route from array. No path was provided");
         }
 
-        if(!isset($routesArray["output"])){
+        if (!isset($routesArray["output"])) {
             throw new \Exception("Invalid route from array. No output was provided");
         }
 
@@ -62,13 +66,13 @@ class Router {
             ->route(
                 $name,
                 $routesArray["path"],
-                function () use($routesArray) {
+                function () use ($routesArray) {
                     $status = isset($routesArray["status"]) ? $routesArray["status"] : 200;
                     return new HtmlResponse($routesArray["output"], $status);
                 }
             );
 
-        if(isset($routesArray["methods"])){
+        if (isset($routesArray["methods"])) {
             $route->allows($routesArray["methods"]);
         }
 
@@ -77,15 +81,17 @@ class Router {
     /**
      * @return Reader
      */
-    private function getAnnotationReader(){
-        if(null == $this->annotationReader){
+    private function getAnnotationReader()
+    {
+        if (null == $this->annotationReader) {
             $this->annotationReader = new Reader(new Parser(), new ArrayCache());
         }
 
         return $this->annotationReader;
     }
 
-    private function tryAddRouteForMethod($class, \ReflectionMethod $method){
+    private function tryAddRouteForMethod($class, \ReflectionMethod $method)
+    {
         $annotations = $this->getAnnotationReader()->getAnnotations($method);
         $annotations = $annotations->useNamespace("route");
 
@@ -94,7 +100,7 @@ class Router {
         // @route.name null
         // @route.methods []
 
-        if($annotations->has("path")) {
+        if ($annotations->has("path")) {
             $routePath = $annotations->get("path");
 
             if (!$routePath || !is_string($routePath)) {
@@ -113,15 +119,15 @@ class Router {
                     [$class, $method->getName()]
                 );
 
-            if(!empty($httpMethods)){
+            if (!empty($httpMethods)) {
                 $route->allows($httpMethods);
             }
         }
 
     }
 
-    public function match(ServerRequest $request){
+    public function match(ServerRequest $request)
+    {
         return $this->routerContainer->getMatcher()->match($request);
     }
-
 }

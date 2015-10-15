@@ -5,11 +5,11 @@
 
 namespace HttpBin;
 
-
 use HttpBin\Routes\Common;
 use HttpBin\Routes\HttpMethod;
 
-class DefaultApplication extends Application{
+class DefaultApplication extends Application
+{
 
     public function __construct()
     {

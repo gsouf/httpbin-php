@@ -8,14 +8,14 @@
 
 namespace HttpBin\Test;
 
-
 use HttpBin\Router;
 use Zend\Diactoros\ServerRequest;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testFromArray(){
+    public function testFromArray()
+    {
         $router = new Router();
 
         $this->assertCount(0, $router->getRoutes());
@@ -29,5 +29,4 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $response = call_user_func($router->getRoutes()[0]->handler, new ServerRequest());
         $this->assertEquals("bar", (string)$response->getBody());
     }
-
 }

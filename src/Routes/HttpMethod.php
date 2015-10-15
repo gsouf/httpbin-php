@@ -9,9 +9,11 @@ use \Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Request;
 use HttpBin\JsonPrettyResponse;
 
-class HttpMethod {
+class HttpMethod
+{
 
-    protected function createResponse(ServerRequestInterface $request, array $data = []){
+    protected function createResponse(ServerRequestInterface $request, array $data = [])
+    {
 
         $server = $request->getServerParams();
         $ip = isset($server["HTTP_CLIENT_IP"]) ? $server["HTTP_CLIENT_IP"] : null;
@@ -37,7 +39,8 @@ class HttpMethod {
      * @route.path /post
      * @route.methods POST
      */
-    public function routePost(ServerRequestInterface $request){
+    public function routePost(ServerRequestInterface $request)
+    {
         return $this->createResponse($request);
     }
 
@@ -47,8 +50,8 @@ class HttpMethod {
      * @route.path /get
      * @route.methods GET
      */
-    public function routeGet(ServerRequestInterface $request){
+    public function routeGet(ServerRequestInterface $request)
+    {
         return $this->createResponse($request);
     }
-
 }

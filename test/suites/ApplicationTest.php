@@ -14,12 +14,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     protected $app;
 
-    public function setUp(){
+    public function setUp()
+    {
         $this->app = new Application();
     }
 
-    public function testApplication(){
+    public function testApplication()
+    {
 
     }
-
 }

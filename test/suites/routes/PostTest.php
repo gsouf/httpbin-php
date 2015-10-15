@@ -11,13 +11,14 @@ use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Stream;
 use Zend\Diactoros\Response\EmitterInterface;
 
-
 /**
  * @codeCoverageIgnore
  */
-class PostTest extends \PHPUnit_Framework_TestCase{
+class PostTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testPost(){
+    public function testPost()
+    {
 
         $method = "POST";
 
@@ -58,5 +59,4 @@ class PostTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals("127.0.0.1:8000", $responseJson["authority"]);
 
     }
-
 }

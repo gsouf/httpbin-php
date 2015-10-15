@@ -6,10 +6,12 @@
 namespace HttpBin;
 
 
+use Aura\Router\Route;
 use Aura\Router\RouterContainer;
 use Minime\Annotations\Cache\ArrayCache;
 use Minime\Annotations\Parser;
 use Minime\Annotations\Reader;
+use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\ServerRequest;
 
 class Router {
@@ -33,6 +35,43 @@ class Router {
                 $this->tryAddRouteForMethod($classInstance, $method);
             }
         }
+    }
+
+    /**
+     * @return Route[]
+     */
+    public function getRoutes(){
+        return $this->routerContainer->getMap()->getRoutes();
+    }
+
+    public function fromArray($routesArray){
+
+        if(!isset($routesArray["path"])){
+            throw new \Exception("Invalid route from array. No path was provided");
+        }
+
+        if(!isset($routesArray["output"])){
+            throw new \Exception("Invalid route from array. No output was provided");
+        }
+
+        $name = isset($routesArray["name"]) ? $routesArray["name"] : null;
+
+        $route = $this
+            ->routerContainer
+            ->getMap()
+            ->route(
+                $name,
+                $routesArray["path"],
+                function () use($routesArray) {
+                    $status = isset($routesArray["status"]) ? $routesArray["status"] : 200;
+                    return new HtmlResponse($routesArray["output"], $status);
+                }
+            );
+
+        if(isset($routesArray["methods"])){
+            $route->allows($routesArray["methods"]);
+        }
+
     }
 
     /**

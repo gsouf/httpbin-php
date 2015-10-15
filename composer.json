@@ -30,8 +30,7 @@
     "php": ">=5.5.0",
     "aura/router": "3.0.0-beta2",
     "zendframework/zend-diactoros": "~1.1",
-    "minime/annotations": "~2.3",
-    "aura/dispatcher": "2.0.3"
+    "minime/annotations": "~2.3"
   },
 
   "require-dev":{

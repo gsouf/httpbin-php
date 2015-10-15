@@ -1,7 +1,6 @@
 <phpunit bootstrap="vendor/autoload.php"
          backupGlobals="false"
          backupStaticAttributes="false"
-         colors="true"
          verbose="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"

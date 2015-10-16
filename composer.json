@@ -22,7 +22,7 @@
 
   "autoload-dev":{
     "psr-4" : {
-      "Http\\Test\\"   :   "test/suites"
+      "HttpBin\\Test\\"   :   "test/suites"
     }
   },
 

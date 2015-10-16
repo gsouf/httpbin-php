@@ -6,7 +6,7 @@ namespace HttpBin\Test;
 
 use HttpBin\Application;
 
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class ApplicationTest extends HttpbinTestCase
 {
 
     /**
@@ -21,6 +21,25 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     public function testApplication()
     {
+
+    }
+
+    /**
+     * using int value as output was causing issue
+     */
+    public function testIntOutput()
+    {
+
+        $this->app->getRouter()->fromArray([
+            "path" => "/testInt",
+            "output" => 5
+        ]);
+
+        $request = $this->generateServerRequest("/testInt", "GET", []);
+
+        $response = $this->app->dispatch($request);
+
+        $this->assertEquals(5, (string) $response->getBody());
 
     }
 }

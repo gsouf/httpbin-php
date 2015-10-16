@@ -7,6 +7,7 @@ namespace HttpBin\Test\Route;
 
 use HttpBin\Application;
 use HttpBin\Routes\HttpMethod;
+use HttpBin\Test\HttpbinTestCase;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Stream;
 use Zend\Diactoros\Response\EmitterInterface;
@@ -14,36 +15,24 @@ use Zend\Diactoros\Response\EmitterInterface;
 /**
  * @codeCoverageIgnore
  */
-class PostTest extends \PHPUnit_Framework_TestCase
+class PostTest extends HttpbinTestCase
 {
+
+
 
     public function testPost()
     {
 
-        $method = "POST";
-
-        $serverParams = [];
-
-        $postData = [
+        $data = [
             "someParam" => "params",
             "foo"       => "bar"
         ];
-        $fileParams = [];
-        $uri = "http://127.0.0.1:8000/post?query=1&foo=bar";
-        $body = new Stream("php://memory", "r+");
-        $headers = [
-            "Content-Type" => "application/x-www-form-urlencoded"
-        ];
 
-        $request = new ServerRequest(
-            $serverParams,
-            $fileParams,
-            $uri,
-            $method,
-            $body,
-            $headers
+        $request = $this->generateServerRequest(
+            "http://127.0.0.1:8000/post?query=1&foo=bar",
+            "POST",
+            $data
         );
-        $request = $request->withQueryParams($postData);
 
         $application = new Application();
         $application->getRouter()->fromClassAnnotation(new HttpMethod());
@@ -52,7 +41,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
 
         $responseJson = json_decode($response->getBody(), true);
 
-        $this->assertEquals($postData, $responseJson["data"]);
+        $this->assertEquals($data, $responseJson["data"]);
         $this->assertEquals("/post", $responseJson["path"]);
         $this->assertEquals("query=1&foo=bar", $responseJson["query"]);
         $this->assertEquals("http://127.0.0.1:8000/post?query=1&foo=bar", $responseJson["url"]);

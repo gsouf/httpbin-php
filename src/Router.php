@@ -68,7 +68,7 @@ class Router
                 $routesArray["path"],
                 function () use ($routesArray) {
                     $status = isset($routesArray["status"]) ? $routesArray["status"] : 200;
-                    return new HtmlResponse($routesArray["output"], $status);
+                    return new HtmlResponse((string) $routesArray["output"], $status);
                 }
             );
 

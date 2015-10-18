@@ -32,6 +32,27 @@ If you use PSR-7 requests and responses then you can test use httpbin without st
 
 ```
 
+Default Routes
+--------------
+
+### /post 
+
+- accepted methods: POST
+
+### /get
+
+- accepted methods: GET
+
+### /ping
+
+Will everytime return pong
+
+Output example: 
+
+```
+pong
+```
+
 Custom routes
 -------------
 

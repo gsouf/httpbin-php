@@ -10,8 +10,8 @@ use Aura\Router\RouterContainer;
 use Minime\Annotations\Cache\ArrayCache;
 use Minime\Annotations\Parser;
 use Minime\Annotations\Reader;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\ServerRequest;
 
 class Router
 {
@@ -126,7 +126,7 @@ class Router
 
     }
 
-    public function match(ServerRequest $request)
+    public function match(ServerRequestInterface $request)
     {
         return $this->routerContainer->getMatcher()->match($request);
     }

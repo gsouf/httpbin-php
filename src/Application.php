@@ -35,7 +35,9 @@ class Application extends SapiEmitter
 
 
     /**
+     * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws \Exception
      */
     public function dispatch(ServerRequestInterface $request)
     {

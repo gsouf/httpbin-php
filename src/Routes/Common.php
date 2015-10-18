@@ -8,6 +8,7 @@
 
 namespace HttpBin\Routes;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 
 class Common
@@ -20,5 +21,17 @@ class Common
     public function ping()
     {
         return new HtmlResponse("pong");
+    }
+
+    /**
+     * @route.path /ip
+     * @route.name ip
+     */
+    public function ip(ServerRequestInterface $request)
+    {
+
+        $params= $request->getServerParams();
+        $ip = isset($params["REMOTE_ADDR"]) ? (string) $params["REMOTE_ADDR"] : "";
+        return new HtmlResponse($ip);
     }
 }

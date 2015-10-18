@@ -11,11 +11,17 @@ use Zend\Diactoros\Stream;
 class HttpbinTestCase extends \PHPUnit_Framework_TestCase
 {
 
-    protected function generateServerRequest($url, $method, $data)
+    /**
+     * @param $url
+     * @param string $method
+     * @param array $data
+     * @return \Psr\Http\Message\ServerRequestInterface
+     */
+    protected function generateServerRequest($url, $method = "GET", $data = [])
     {
 
 
-        $serverParams = [];
+        $serverParams = ["REMOTE_ADDR" => "127.0.0.1"];
         $fileParams = [];
         $body = new Stream("php://memory", "r+");
         $headers = [];

@@ -59,3 +59,13 @@ Custom routes
 You can write custom routes or override an existing one.
 
 TODO
+
+
+
+TODO
+----
+
+- Status code for custom routes
+- Gziped for custom routes
+- Deflate for custom routes
+- custom header for custom routes (e.g. for redirect)

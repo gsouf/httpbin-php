@@ -11,13 +11,14 @@ use Zend\Diactoros\Stream;
 class HttpbinTestCase extends \PHPUnit_Framework_TestCase
 {
 
+
     /**
      * @param $url
      * @param string $method
      * @param array $data
      * @return \Psr\Http\Message\ServerRequestInterface
      */
-    protected function generateServerRequest($url, $method = "GET", $data = [])
+    protected function generateServerRequest($url, $method = "GET", array $queryData = [], array $data = null)
     {
 
 
@@ -26,6 +27,9 @@ class HttpbinTestCase extends \PHPUnit_Framework_TestCase
         $body = new Stream("php://memory", "r+");
         $headers = [];
 
+        if (count($queryData) > 0) {
+            $url .= "?" . http_build_query($queryData);
+        }
         $request = new ServerRequest(
             $serverParams,
             $fileParams,
@@ -36,7 +40,10 @@ class HttpbinTestCase extends \PHPUnit_Framework_TestCase
         );
 
         if ($data) {
-            $request = $request->withQueryParams($data);
+            $request = $request->withQueryParams($queryData);
+            if ($data) {
+                $request = $request->withParsedBody($data);
+            }
         }
 
         return $request;

@@ -35,7 +35,7 @@ class ApplicationTest extends HttpbinTestCase
             "output" => 5
         ]);
 
-        $request = $this->generateServerRequest("/testInt", "GET", []);
+        $request = $this->generateServerRequest("/testInt", "GET");
 
         $response = $this->app->dispatch($request);
 

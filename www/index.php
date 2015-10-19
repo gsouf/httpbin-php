@@ -34,7 +34,9 @@ if($additionalRoutes){
 
 try {
     $response = $application->dispatch($request);
-    echo $application->emit($response);
+
 } catch (Exception $e){
-    echo $application->emit(new \Zend\Diactoros\Response\HtmlResponse("Internal error", 500));
+    $response = new \Zend\Diactoros\Response\HtmlResponse("Internal error", 500);
 }
+
+$application->emit($response);

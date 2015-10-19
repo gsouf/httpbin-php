@@ -19,14 +19,17 @@ class HttpMethod
         $ip = isset($server["HTTP_CLIENT_IP"]) ? $server["HTTP_CLIENT_IP"] : null;
 
         $defaultData = [
-            "data"    => $request->getQueryParams(),
-            "headers" => $request->getHeaders(),
-            "path"    => $request->getUri()->getPath(),
-            "query"   => $request->getUri()->getQuery(),
-            "scheme"  => $request->getUri()->getScheme(),
-            "authority"     => $request->getUri()->getAuthority(),
-            "url"     => $request->getUri()->__toString(),
-            "ip"      =>  $ip
+            "data"      => $request->getParsedBody(),
+            "queryData" => $request->getQueryParams(),
+            "headers"   => $request->getHeaders(),
+            "body"      => (string)$request->getBody(),
+            "path"      => $request->getUri()->getPath(),
+            "method"    => $request->getMethod(),
+            "query"     => $request->getUri()->getQuery(),
+            "scheme"    => $request->getUri()->getScheme(),
+            "authority" => $request->getUri()->getAuthority(),
+            "url"       => $request->getUri()->__toString(),
+            "ip"        =>  $ip
 
         ];
 
@@ -51,6 +54,36 @@ class HttpMethod
      * @route.methods GET
      */
     public function routeGet(ServerRequestInterface $request)
+    {
+        return $this->createResponse($request);
+    }
+
+    /**
+     * @route.name put
+     * @route.path /put
+     * @route.methods PUT
+     */
+    public function routePut(ServerRequestInterface $request)
+    {
+        return $this->createResponse($request);
+    }
+
+    /**
+     * @route.name patch
+     * @route.path /patch
+     * @route.methods PATCH
+     */
+    public function routePatch(ServerRequestInterface $request)
+    {
+        return $this->createResponse($request);
+    }
+
+    /**
+     * @route.name delete
+     * @route.path /delete
+     * @route.methods DELETE
+     */
+    public function routeDelete(ServerRequestInterface $request)
     {
         return $this->createResponse($request);
     }

@@ -12,6 +12,7 @@ use Minime\Annotations\Parser;
 use Minime\Annotations\Reader;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
+use Zend\Diactoros\Response\RedirectResponse;
 
 class Router
 {
@@ -47,6 +48,24 @@ class Router
         return $this->routerContainer->getMap()->getRoutes();
     }
 
+    /**
+     * Adds a route to the application.
+     *
+     * Here is a sample or the array format:
+     *
+     * [
+     *  "path" => "/foo",
+     *  "output" => "someOutput produced when the route is called"
+     *  "status" => 200
+     *  "methods" => ["GET","POST"] // list of accepted http methods (leave null or ignore it to accept all methods),
+     *  "headers" => ["headerNamer" => "headerValue"],
+     *  "responseType" => "html"  // accepts one of: html, json, raw, redirect
+     * ]
+     *
+     *
+     * @param array $routesArray the route to add
+     * @throws \Exception
+     */
     public function fromArray($routesArray)
     {
 
@@ -66,16 +85,41 @@ class Router
             ->route(
                 $name,
                 $routesArray["path"],
-                function () use ($routesArray) {
-                    $status = isset($routesArray["status"]) ? $routesArray["status"] : 200;
-                    return new HtmlResponse((string) $routesArray["output"], $status);
-                }
+                $this->fromArrayHandler($routesArray)
             );
 
         if (isset($routesArray["methods"])) {
             $route->allows($routesArray["methods"]);
         }
 
+    }
+
+    private function fromArrayHandler($routesArray){
+        return function () use ($routesArray) {
+            $status = isset($routesArray["status"]) ? $routesArray["status"] : 200;
+            $headers = isset($routesArray["headers"]) ? $routesArray["headers"] : [];
+            $responseType = isset($routesArray["responseType"]) ? $routesArray["responseType"] : "html";
+
+            switch($responseType){
+                case "html":
+                    $response = new HtmlResponse((string) $routesArray["output"], $status, $headers);
+                    break;
+                case "json":
+                    $response = new JsonPrettyResponse($routesArray["output"], $status, $headers);
+                    break;
+                case "redirect":
+                    $status = isset($routesArray["status"]) ? $routesArray["status"] : 301;
+                    $response = new RedirectResponse((string) $routesArray["output"], $status, $headers);
+                    break;
+                case "raw":
+                    $response = new HtmlResponse((string) $routesArray["output"], $status, $headers);
+                    $response = $response->withoutHeader("content-type");
+                    break;
+
+            }
+
+            return $response;
+        };
     }
 
     /**

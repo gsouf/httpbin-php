@@ -56,16 +56,87 @@ pong
 Custom routes
 -------------
 
-You can write custom routes or override an existing one.
+You can write custom routes or override an existing one:
+
+```php
+    $application = new DefaultApplication();
+    $application->getRouter()->fromArray([
+        "path" =>  "/customRoute",
+        "output" => "customOutput"
+    ]);
+```
+
+Now when you call ``/customRoute`` on your server you will have ``customOutput`` as response.
+
+#### Control the status code
+
+The option status allows to control the status code of the response:
+
+```php
+    $application = new DefaultApplication();
+    $application->getRouter()->fromArray([
+        "path" =>  "/customRoute",
+        "output" => "I'm here, but you wont find me",
+        "status" => "404"
+    ]);
+```
+
+
+#### Control the headers
+
+The option headers allows to add some headers to the response
+
+```php
+    $application = new DefaultApplication();
+    $application->getRouter()->fromArray([
+        "path" =>  "/customRoute",
+        "output" => "customOutput",
+        "headers" => ["someHeader" => "somevalue"]
+    ]);
+```
+
+#### Control matching http methods
+
+Defaultly the option will match for every request method. 
+But you can change this behaviours with the option ``methods``.
+In this example the request will only match ``POST`` requests:
+
+
+```php
+    $application = new DefaultApplication();
+    $application->getRouter()->fromArray([
+        "path" =>  "/postOnly",
+        "output" => "customOutput",
+        "methods" => ["POST"]
+    ]);
+```
+
+
+#### Setup redirect
+
+You can create a redirect response with the ``responseType`` set to ``redirect``, ``ouput`` will contain the location:
+
+```php
+    $application = new DefaultApplication();
+    $application->getRouter()->fromArray([
+        "path" =>  "/redirectRoute",
+        "output" => "/redirectTo",
+        "responseType"=> "redirect"
+    ]);
+```
+
+#### Json Response
+
+You can create a json response with the ``responseType`` set to ``json``
+
+```php
+    $application = new DefaultApplication();
+    $application->getRouter()->fromArray([
+        "path" =>  "/redirectRoute",
+        "output" => ["key" => "value"],
+        "responseType"=> "json"
+    ]);
+```
+
 
 TODO
-
-
-
-TODO
-----
-
-- Status code for custom routes
-- Gziped for custom routes
-- Deflate for custom routes
-- custom header for custom routes (e.g. for redirect)

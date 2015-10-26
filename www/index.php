@@ -14,7 +14,13 @@ $request = ServerRequestFactory::fromGlobals(
     $_FILES
 );
 
-$application = new \HttpBin\DefaultApplication();
+$defaultRoutes = get_cfg_var("httpbin.skipDefaultRoutes");
+if($defaultRoutes === true){
+    $application = new \HttpBin\Application();
+}else{
+    $application = new \HttpBin\DefaultApplication();
+}
+
 
 $additionalRoutes = get_cfg_var("httpbin.handler");
 if($additionalRoutes){
@@ -29,6 +35,7 @@ if($additionalRoutes){
         throw new \Exception("ini rule httpbin.handler refers to an unexisting file: $additionalRoutes");
     }
 }
+
 
 
 

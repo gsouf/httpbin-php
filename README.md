@@ -16,8 +16,6 @@ Start the server
 Many options to start a server
 
 - ``php -S localhost:8000 -t path/to/sources/www/``
-- TODO: http://php.net/manual/fr/phar.webphar.php
-- TODO: Make a callable socket daemon
 
 
 PSR-7 compliant
@@ -76,7 +74,7 @@ The option status allows to control the status code of the response:
     $application = new DefaultApplication();
     $application->getRouter()->fromArray([
         "path" =>  "/customRoute",
-        "output" => "I'm here, but you wont find me",
+        "output" => "I'm not here",
         "status" => "404"
     ]);
 ```
@@ -139,4 +137,30 @@ You can create a json response with the ``responseType`` set to ``json``
 ```
 
 
-TODO
+
+## Use additional route with php.ini
+
+When you start the server you can pass a custom ini file. This ini file allow to gain more control on the application.
+
+Available options:
+
+```ini
+; Disable default routes
+httpbin.skipDefaultRoutes=true
+
+; A json file that contains additional routes of the application
+httpbin.handler
+
+```
+
+An example of the handler file:
+
+```json
+    [
+        {
+            "path": "/myRoute",
+            "output": "Some output",
+            "methods": ["POST"]
+        }
+    ]
+```

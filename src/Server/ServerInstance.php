@@ -83,7 +83,7 @@ class ServerInstance
      * @param string $uri uri to call with a leading slash
      * @param string $method http method
      * @param array $data data to send
-     * @return \gsouf\SimpleCurl\HttpResponse
+     * @return string|bool the response body as a string or false in case of error
      */
     public function call($uri, $method = "GET", $data = [])
     {
@@ -128,7 +128,12 @@ class ServerInstance
         $try = 0;
         while ($try < $tryout && $this->serverProcess->isRunning()) {
             $serverResponse = $this->call("/_mypid");
-            if ((string)$serverResponse == $this->getPid()) {
+            var_dump("MY PID");
+            var_dump($this->getPid());
+            var_dump("/_mypid output");
+            var_dump($serverResponse);
+
+            if ($serverResponse == $this->getPid()) {
                 return true;
             }
             usleep($timePerTry);

@@ -87,8 +87,34 @@ class ServerInstance
      */
     public function call($uri, $method = "GET", $data = [])
     {
-        $request = new HttpRequest($this->buildUrl($uri), $method, $data);
-        $response = $request->exec();
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->buildUrl($uri));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        switch ($method) {
+            case 'GET':
+                curl_setopt($ch, CURLOPT_HTTPGET, true);
+                curl_setopt($ch, CURLOPT_NOBODY, false);
+                break;
+            case 'HEAD':
+                curl_setopt($ch, CURLOPT_HTTPGET, false);
+                curl_setopt($ch, CURLOPT_NOBODY, true);
+                break;
+            case 'POST':
+            case 'CONNECT':
+            case 'DELETE':
+            case 'PATCH':
+            case 'PUT':
+            case 'TRACE':
+                curl_setopt($ch, CURLOPT_HTTPGET, false);
+                curl_setopt($ch, CURLOPT_NOBODY, false);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+                break;
+        }
+
+        $response = curl_exec($ch);
+
         return $response;
     }
 

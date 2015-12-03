@@ -12,13 +12,13 @@ class ServerInstanceTest extends \PHPUnit_Framework_TestCase
         $server = new Server("localhost", 8082);
         $server->start();
         $response = $server->call("/ping");
-        $this->assertEquals("pong", $response->getBody());
+        $this->assertEquals("pong", $response);
         $server->stop();
         $response = $server->call("/ping");
-        $this->assertEmpty($response->getBody());
+        $this->assertEmpty($response);
         $server->start();
         $response = $server->call("/ping");
-        $this->assertEquals("pong", $response->getBody());
+        $this->assertEquals("pong", $response);
         $server->stop();
     }
     public function testStart2Servers()
@@ -54,7 +54,7 @@ class ServerInstanceTest extends \PHPUnit_Framework_TestCase
         $server->start();
         $server->getRoutes()->addRoute("/foobar", "foobarbaz");
         $response = $server->call("/foobar");
-        $this->assertEquals("foobarbaz", $response->getBody());
+        $this->assertEquals("foobarbaz", $response);
         $server->stop();
     }
 }

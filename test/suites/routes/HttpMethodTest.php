@@ -28,16 +28,16 @@ class HttpMethodTest extends HttpbinTestCase
     protected static $httpClient;
 
     /**
-     * @var Process
+     * @var ServerInstance
      */
-    protected static $serverProcess;
+    protected static $server;
 
 
     public static function setUpBeforeClass()
     {
 
-        $server = new ServerInstance("localhost", "9094");
-        $server->start();
+        self::$server = new ServerInstance("localhost", "9094");
+        self::$server->start();
 
         self::$httpClient = new Client(["base_uri" => "http://127.0.0.1:9094/"]);
     }
@@ -94,6 +94,11 @@ class HttpMethodTest extends HttpbinTestCase
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $pong = curl_exec($ch);
         var_dump($pong);
+
+        var_dump(self::$server->isRunning());
+        var_dump(self::$server->serverProcess->getErrorOutput());
+        var_dump(self::$server->serverProcess->getExitCode());
+        var_dump(self::$server->serverProcess->getOutput());
 
         $response = self::$httpClient->request("GET", "ping");
         $response = $response->getBody();

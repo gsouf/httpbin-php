@@ -14,7 +14,7 @@ class ServerInstance
     /**
      * @var Process
      */
-    protected $serverProcess;
+    public $serverProcess;
     /**
      * @var ServerRoutes
      */

@@ -17,7 +17,6 @@ before_script:
   - phpenv config-rm xdebug.ini
   - travis_retry composer self-update
   - travis_retry composer update --dev --prefer-source
-  - phpenv config-add xdebug.ini
   - php -v
 
 script: ./test/bin/ci.bash summary

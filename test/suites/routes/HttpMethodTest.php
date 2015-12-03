@@ -87,8 +87,22 @@ class HttpMethodTest extends HttpbinTestCase
         $this->makeAssertion("/post", $responseJson);
     }
 
+
+    public function testPing(){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:9094/ping");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $pong = curl_exec($ch);
+        var_dump($pong);
+
+        $response = self::$httpClient->request("GET", "ping");
+        $response = $response->getBody();
+        $this->assertEquals("pong", $response);
+    }
+
     public function testPostReal()
     {
+
         $response = self::$httpClient->request("POST", "post?query=1&foo=bar", [
             'form_params' => $this->getData(),
         ]);

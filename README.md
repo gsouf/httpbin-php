@@ -1,7 +1,17 @@
 HttpBin
 =======
 
-That was highly inspired by the python version: https://github.com/Runscope/httpbin
+[![Latest Stable Version](https://poser.pugx.org/httpbin/httpbin/v/stable)](https://packagist.org/packages/httpbin/httpbin)
+[![Build Status](https://travis-ci.org/gsouf/httpbin-php.svg?branch=master)](https://travis-ci.org/gsouf/httpbin-php)
+[![Test Coverage](https://codeclimate.com/github/gsouf/httpbin-php/badges/coverage.svg)](https://codeclimate.com/github/gsouf/httpbin-php/coverage)
+
+That was highly inspired by the python version: https://github.com/Runscope/httpbin but I needed a tool with 
+better integration to phpunit and test environment (and the python httpbin had its limits).
+
+This tools aims to test API client, it was not built to use in prod (though I cant imagine such an use case)
+You might want to check:
+
+- [PHPUnit integration](httpbin-phpunit-plugin)
 
 
 Install
@@ -197,7 +207,7 @@ Now you can call ``http://localhost:8080/foobar`` and the will output ``foo bar`
 
 ### Use additional route with php.ini (command line)
 
-*Be aware that this feature is already manager by the ``ServerInstance`` class and in most of case you wont need it.*
+*Be aware that this feature is already managed by the ``ServerInstance`` class and in most of case you wont need it.*
 
 When you start the server you can pass a custom ini file. This ini file allow to gain more control on the application:
 

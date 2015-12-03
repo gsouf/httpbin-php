@@ -39,6 +39,19 @@ class HttpMethodTest extends HttpbinTestCase
         self::$server = new ServerInstance("localhost", "9094");
         self::$server->start();
 
+        echo PHP_EOL;
+        echo "=======";
+        echo PHP_EOL;
+        echo "check startup";
+        echo PHP_EOL;
+        echo "=======";
+        echo PHP_EOL;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:9094/ping");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $pong = curl_exec($ch);
+        var_dump($pong);
+
         self::$httpClient = new Client(["base_uri" => "http://127.0.0.1:9094/"]);
     }
 

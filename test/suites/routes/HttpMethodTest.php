@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use HttpBin\Application;
 use HttpBin\Routes\HttpMethod;
+use HttpBin\Server\ServerInstance;
 use HttpBin\Test\HttpbinTestCase;
 use Symfony\Component\Process\Process;
 use Zend\Diactoros\ServerRequest;
@@ -34,39 +35,11 @@ class HttpMethodTest extends HttpbinTestCase
 
     public static function setUpBeforeClass()
     {
-        $process = new Process("exec php -S localhost:9094 -t " . __DIR__ . "/../../../www");
-        $process->start();
+
+        $server = new ServerInstance("localhost", "9094");
+        $server->start();
 
         self::$httpClient = new Client(["base_uri" => "http://127.0.0.1:9094/"]);
-
-        $tryout = 50;
-        $try = 0;
-
-        do {
-            try {
-                $response = self::$httpClient->request("GET", "ping");
-                $responseText = (string)$response->getBody();
-            } catch (ConnectException $e) {
-                $responseText = "";
-            }
-
-            usleep(50000);
-            $try++;
-        } while ($try < $tryout && $responseText != "pong");
-
-        if ($responseText == "pong") {
-            if (!$process->isRunning()) {
-                $message = "Unable to start http server for test. "
-                    . "It seems that an other server is already using the same port (9094) detailled error bellow: ";
-                $message .= $process->getErrorOutput();
-                throw new \Exception($message);
-            }
-        } else {
-            $message = "Unable to start http server. See detailled error: ";
-            $message .= $process->getErrorOutput();
-            throw new \Exception($message);
-        }
-
     }
 
     protected function getData()

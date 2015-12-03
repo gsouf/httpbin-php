@@ -17,7 +17,6 @@ class CommonTest extends HttpbinTestCase
 {
 
     public function testIp(){
-        $data = [];
         $request = $this->generateServerRequest(
             "http://127.0.0.1:8000/ip"
         );

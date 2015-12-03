@@ -31,7 +31,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertCount(2, $response->getHeaders());
         $this->assertArrayHasKey( "content-type", $response->getHeaders());
-        $this->assertEquals( ["text/html"], $response->getHeaders()["content-type"]);
+        $this->assertEquals( ["text/html; charset=utf-8"], $response->getHeaders()["content-type"]);
         $this->assertArrayHasKey( "x-custom", $response->getHeaders());
         $this->assertEquals( ["baz"], $response->getHeaders()["x-custom"]);
 

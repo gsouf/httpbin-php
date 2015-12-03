@@ -128,10 +128,6 @@ class ServerInstance
         $try = 0;
         while ($try < $tryout && $this->serverProcess->isRunning()) {
             $serverResponse = $this->call("/_mypid");
-            var_dump("MY PID");
-            var_dump($this->getPid());
-            var_dump("/_mypid output");
-            var_dump($serverResponse);
 
             if ($serverResponse == $this->getPid()) {
                 return true;

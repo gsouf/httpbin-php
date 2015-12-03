@@ -5,7 +5,7 @@ set -e
 SCRIPTFILE=$(readlink -f "$0")
 SCRIPTDIR=$(dirname "$SCRIPTFILE")
 
-phpunit -c "$SCRIPTDIR/../../phpunit.dist.xml" --coverage-clover "$SCRIPTDIR/../../build/logs/clover.xml"
+phpunit -c "$SCRIPTDIR/../../phpunit.dist.xml" --coverage-clover "$SCRIPTDIR/../../build/logs/clover.xml" --filter testPing
 
 $SCRIPTDIR/phpcs.bash $1
 

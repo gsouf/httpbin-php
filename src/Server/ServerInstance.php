@@ -56,8 +56,6 @@ class ServerInstance
     }
     /**
      * Starts the server at the given host and port and waits for the server to be fully started
-     * @param string $host
-     * @param string $port
      * @throws \Exception
      */
     public function start()
@@ -76,7 +74,7 @@ class ServerInstance
         $this->serverProcess = new Process($scriptString);
         $this->serverProcess->start();
         $this->serverRoutes->setPid($this->getPid());
-        return $this->startWait();
+        $this->startWait();
     }
     /**
      * Make an http call to the server

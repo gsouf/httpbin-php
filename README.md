@@ -10,24 +10,33 @@ Install
 Download the sources or install through composer
 
 
-Start the server
-----------------
+Start the server...
+-------------------
 
-Many options to start a server
-
-- ``php -S localhost:8000 -t path/to/sources/www/``
-
-
-PSR-7 compliant
----------------
-
-If you use PSR-7 requests and responses then you can test use httpbin without starting the webserver:
+- ...via command line: ``php -S localhost:8000 -t www`` 
+- ...via php: 
 
 ```php
+    use HttpBin\Server\ServerInstance;
+    $server = new ServerInstance("localhost", 8080);
+    $server->start();
+    // Additionally you can use the server internal call method
+    echo $server->call("/ping")->getBody(); // outputs "pong"
+```
+
+and check that ``http://localhost:8000/ping`` outputs ``pong``
+
+
+**PSR-7 compliant**
+
+If you use PSR-7 requests and responses then you can use httpbin without starting the webserver:
+
+```php
+    
+    use HttpBin\Application;
 
     $application = new Application();
     $psr7Response = $application->dispatch($psr7ServerRequest);
-
 ```
 
 Default Routes
@@ -37,19 +46,17 @@ Default Routes
 
 - accepted methods: POST
 
+returns a json that contains some info about the request including get parameters. Requires the method to be ``post``
+
 ### /get
 
 - accepted methods: GET
 
+returns a json that contains some info about the request including get parameters. Requires the method to be ``get``
+
 ### /ping
 
-Will everytime return pong
-
-Output example: 
-
-```
-pong
-```
+returns ``pong`` everytime
 
 Custom routes
 -------------
@@ -57,6 +64,9 @@ Custom routes
 You can write custom routes or override an existing one:
 
 ```php
+    
+    use HttpBin\DefaultApplication;
+
     $application = new DefaultApplication();
     $application->getRouter()->fromArray([
         "path" =>  "/customRoute",
@@ -66,11 +76,24 @@ You can write custom routes or override an existing one:
 
 Now when you call ``/customRoute`` on your server you will have ``customOutput`` as response.
 
+You can add route independently the way you started your server. The following sections explain how to:
+- Add route to programatically created ``Application``
+- Add route to programatically created ``ServerInstance``
+- Add route to server created by command line
+
+
+
+
+### Add route to application
+
 #### Control the status code
 
 The option status allows to control the status code of the response:
 
 ```php
+    
+    use HttpBin\DefaultApplication;
+
     $application = new DefaultApplication();
     $application->getRouter()->fromArray([
         "path" =>  "/customRoute",
@@ -79,12 +102,17 @@ The option status allows to control the status code of the response:
     ]);
 ```
 
+Now when you call ``/customRoute`` on your server you will have ``I'm not here`` as response with status code ``404``
+
 
 #### Control the headers
 
 The option headers allows to add some headers to the response
 
 ```php
+    
+    use HttpBin\DefaultApplication;
+
     $application = new DefaultApplication();
     $application->getRouter()->fromArray([
         "path" =>  "/customRoute",
@@ -92,6 +120,8 @@ The option headers allows to add some headers to the response
         "headers" => ["someHeader" => "somevalue"]
     ]);
 ```
+
+Now when you call ``/customRoute`` on your server you will have ``customOutput`` as response with the header ``someHeader: somevalue``
 
 #### Control matching http methods
 
@@ -101,6 +131,9 @@ In this example the request will only match ``POST`` requests:
 
 
 ```php
+    
+    use HttpBin\DefaultApplication;
+
     $application = new DefaultApplication();
     $application->getRouter()->fromArray([
         "path" =>  "/postOnly",
@@ -109,12 +142,17 @@ In this example the request will only match ``POST`` requests:
     ]);
 ```
 
+``/postOnly`` will only answer to request with ``POST`` method
+
 
 #### Setup redirect
 
-You can create a redirect response with the ``responseType`` set to ``redirect``, ``ouput`` will contain the location:
+You can create a redirect response with the ``responseType`` set to ``redirect``, ``output`` will contain the location:
 
 ```php
+    
+    use HttpBin\DefaultApplication;
+
     $application = new DefaultApplication();
     $application->getRouter()->fromArray([
         "path" =>  "/redirectRoute",
@@ -123,37 +161,65 @@ You can create a redirect response with the ``responseType`` set to ``redirect``
     ]);
 ```
 
+``RedirectRoute`` will return a http response that redirects to ``/redirectTo``
+
 #### Json Response
 
 You can create a json response with the ``responseType`` set to ``json``
 
 ```php
+    
+    use HttpBin\DefaultApplication;
+
     $application = new DefaultApplication();
     $application->getRouter()->fromArray([
-        "path" =>  "/redirectRoute",
+        "path" =>  "/someJson",
         "output" => ["key" => "value"],
         "responseType"=> "json"
     ]);
 ```
 
+``/someJson`` will return the jsonized output:``{"key":"value"}`` with the http header ``content-Type: application/json``
 
 
-## Use additional route with php.ini
 
-When you start the server you can pass a custom ini file. This ini file allow to gain more control on the application.
+### Add route to server instance
 
-Available options:
+
+```php
+
+    use HttpBin\Server\ServerInstance;
+    
+    $server = new ServerInstance("localhost", 8080);
+    $server->start();
+    $server->getRoutes()->addRoute("/foobar", "foo bar");
+```
+
+Now you can call ``http://localhost:8080/foobar`` and the will output ``foo bar``
+
+
+
+### Use additional route with php.ini (command line)
+
+*Be aware that this feature is already manager by the ``ServerInstance`` class and in most of case you wont need it.*
+
+When you start the server you can pass a custom ini file. This ini file allow to gain more control on the application:
+
+``php -S localhost:8000 -t www -c myphp.ini`` 
+
+
+php.ini example:
 
 ```ini
 ; Disable default routes
 httpbin.skipDefaultRoutes=true
 
 ; A json file that contains additional routes of the application
-httpbin.handler
+httpbin.handler=/path/to/file.json
 
 ```
 
-An example of the handler file:
+An example of the handler file (json):
 
 ```json
     [

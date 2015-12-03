@@ -44,13 +44,13 @@ class HttpMethodTest extends HttpbinTestCase
         echo PHP_EOL;
         echo "check startup";
         echo PHP_EOL;
-        echo "=======";
-        echo PHP_EOL;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:9094/ping");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $pong = curl_exec($ch);
         var_dump($pong);
+        echo "=======";
+        echo PHP_EOL;
 
         self::$httpClient = new Client(["base_uri" => "http://127.0.0.1:9094/"]);
     }
@@ -108,10 +108,12 @@ class HttpMethodTest extends HttpbinTestCase
         $pong = curl_exec($ch);
         var_dump($pong);
 
+        var_dump("is running: ");
         var_dump(self::$server->isRunning());
+        var_dump("output: ");
         var_dump(self::$server->serverProcess->getErrorOutput());
-        var_dump(self::$server->serverProcess->getExitCode());
         var_dump(self::$server->serverProcess->getOutput());
+        var_dump(self::$server->serverProcess->getExitCode());
 
         $response = self::$httpClient->request("GET", "ping");
         $response = $response->getBody();

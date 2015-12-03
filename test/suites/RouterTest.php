@@ -30,10 +30,10 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("bar", (string)$response->getBody());
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertCount(2, $response->getHeaders());
-        $this->assertArrayHasKey( "content-type", $response->getHeaders());
-        $this->assertEquals( ["text/html; charset=utf-8"], $response->getHeaders()["content-type"]);
-        $this->assertArrayHasKey( "x-custom", $response->getHeaders());
-        $this->assertEquals( ["baz"], $response->getHeaders()["x-custom"]);
+        $this->assertArrayHasKey("content-type", $response->getHeaders());
+        $this->assertEquals(["text/html; charset=utf-8"], $response->getHeaders()["content-type"]);
+        $this->assertArrayHasKey("x-custom", $response->getHeaders());
+        $this->assertEquals(["baz"], $response->getHeaders()["x-custom"]);
 
 
 
@@ -68,8 +68,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("", (string)$response->getBody());
         $this->assertEquals(301, $response->getStatusCode());
         $this->assertCount(1, $response->getHeaders());
-        $this->assertArrayHasKey( "location", $response->getHeaders());
-        $this->assertEquals( ["/redirectTo"], $response->getHeaders()["location"]);
+        $this->assertArrayHasKey("location", $response->getHeaders());
+        $this->assertEquals(["/redirectTo"], $response->getHeaders()["location"]);
 
 
         // TEST JSON RESPONSE
@@ -86,8 +86,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(["data" => "value"], json_decode($response->getBody(), true));
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertCount(1, $response->getHeaders());
-        $this->assertArrayHasKey( "content-type", $response->getHeaders());
-        $this->assertEquals( ["application/json"], $response->getHeaders()["content-type"]);
+        $this->assertArrayHasKey("content-type", $response->getHeaders());
+        $this->assertEquals(["application/json"], $response->getHeaders()["content-type"]);
 
     }
 }

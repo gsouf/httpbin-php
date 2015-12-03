@@ -5,7 +5,8 @@ namespace HttpBin\Test\Server;
 use HttpBin\Server\ServerInstance as Server;
 use HttpBin\Server\ServerStartupException;
 
-class ServerInstanceTest extends \PHPUnit_Framework_TestCase {
+class ServerInstanceTest extends \PHPUnit_Framework_TestCase
+{
     public function testStartAndStop()
     {
         $server = new Server("localhost", 8082);

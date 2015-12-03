@@ -8,7 +8,6 @@
 
 namespace HttpBin\Test\Route;
 
-
 use HttpBin\Application;
 use HttpBin\DefaultApplication;
 use HttpBin\Test\HttpbinTestCase;
@@ -16,7 +15,8 @@ use HttpBin\Test\HttpbinTestCase;
 class CommonTest extends HttpbinTestCase
 {
 
-    public function testIp(){
+    public function testIp()
+    {
         $request = $this->generateServerRequest(
             "http://127.0.0.1:8000/ip"
         );
@@ -29,5 +29,4 @@ class CommonTest extends HttpbinTestCase
 
         $this->assertEquals("127.0.0.1", (string)$response);
     }
-
 }

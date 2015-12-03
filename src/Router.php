@@ -94,13 +94,14 @@ class Router
 
     }
 
-    private function fromArrayHandler($routesArray){
+    private function fromArrayHandler($routesArray)
+    {
         return function () use ($routesArray) {
             $status = isset($routesArray["status"]) ? $routesArray["status"] : 200;
             $headers = isset($routesArray["headers"]) ? $routesArray["headers"] : [];
             $responseType = isset($routesArray["responseType"]) ? $routesArray["responseType"] : "html";
 
-            switch($responseType){
+            switch ($responseType) {
                 case "html":
                     $response = new HtmlResponse((string) $routesArray["output"], $status, $headers);
                     break;

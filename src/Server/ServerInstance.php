@@ -3,9 +3,11 @@
  * @license see LICENSE
  */
 namespace HttpBin\Server;
+
 use gsouf\SimpleCurl\HttpRequest;
 use Symfony\Component\Process\Process;
 use HttpBin\Server\ServerRoutes;
+
 class ServerInstance
 {
     protected $root;
@@ -28,11 +30,11 @@ class ServerInstance
             $root = __DIR__ . "/../../www";
         }
 
-        if(null === $host){
+        if (null === $host) {
             $host = "localhost";
         }
 
-        if(null === $port){
+        if (null === $port) {
             $port = "9850";
         }
 

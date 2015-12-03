@@ -44,13 +44,9 @@ Default Routes
 
 ### /post 
 
-- accepted methods: POST
-
 returns a json that contains some info about the request including get parameters. Requires the method to be ``post``
 
 ### /get
-
-- accepted methods: GET
 
 returns a json that contains some info about the request including get parameters. Requires the method to be ``get``
 
@@ -77,9 +73,9 @@ You can write custom routes or override an existing one:
 Now when you call ``/customRoute`` on your server you will have ``customOutput`` as response.
 
 You can add route independently the way you started your server. The following sections explain how to:
-- Add route to programatically created ``Application``
-- Add route to programatically created ``ServerInstance``
-- Add route to server created by command line
+- [Add route to programatically created ``Application``](#add-route-to-application)
+- [Add route to programatically created ``ServerInstance``](#add-route-to-server-instance)
+- [Add route to server created by command line](#use-additional-route-with-phpini-command-line)
 
 
 

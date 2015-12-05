@@ -94,7 +94,8 @@ class HttpMethodTest extends HttpbinTestCase
     }
 
 
-    public function testPing(){
+    public function testPing()
+    {
         $response = self::$httpClient->request("GET", "ping");
         $response = $response->getBody();
         $this->assertEquals("pong", $response);

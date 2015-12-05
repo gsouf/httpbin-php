@@ -36,7 +36,7 @@ class HttpMethodTest extends HttpbinTestCase
     public function setUp()
     {
 
-        self::$server = new ServerInstance("localhost", "9094");
+        self::$server = new ServerInstance("127.0.0.1", "9094");
         self::$server->start();
 
         self::$httpClient = new Client(["base_uri" => "http://127.0.0.1:9094/"]);
@@ -95,12 +95,6 @@ class HttpMethodTest extends HttpbinTestCase
 
 
     public function testPing(){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:9094/ping");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $pong = curl_exec($ch);
-        var_dump($pong);
-
         $response = self::$httpClient->request("GET", "ping");
         $response = $response->getBody();
         $this->assertEquals("pong", $response);

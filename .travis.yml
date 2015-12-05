@@ -11,7 +11,8 @@ matrix:
     - php: hhvm
 
   allow_failures:
-      - php: nightly
+    - php: hhvm
+    - php: nightly
 
 before_script:
   - phpenv config-rm xdebug.ini

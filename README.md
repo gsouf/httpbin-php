@@ -5,9 +5,6 @@ HttpBin
 [![Build Status](https://travis-ci.org/gsouf/httpbin-php.svg?branch=master)](https://travis-ci.org/gsouf/httpbin-php)
 [![Test Coverage](https://codeclimate.com/github/gsouf/httpbin-php/badges/coverage.svg)](https://codeclimate.com/github/gsouf/httpbin-php/coverage)
 
-Note: *for some reasons the travis build fails, but it works locally, trying to figure out why...*
-
-
 That was highly inspired by the python version: https://github.com/Runscope/httpbin but I needed a tool with 
 better integration to phpunit and test environment (and the python httpbin had its limits).
 

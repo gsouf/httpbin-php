@@ -24,8 +24,13 @@ Start the server...
 
 ```php
     use HttpBin\Server\ServerInstance;
+    use HttpBin\Server\ServerStartupException;
     $server = new ServerInstance("localhost", 8080);
-    $server->start();
+    try{
+        $server->start();
+    } catch (ServerStartupException $e) {
+        
+    }
     // Additionally you can use the server internal call method
     echo $server->call("/ping")->getBody(); // outputs "pong"
 ```

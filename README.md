@@ -8,22 +8,18 @@ HttpBin
 That was highly inspired by the python version: https://github.com/Runscope/httpbin but I needed a tool with 
 better integration to phpunit and test environment (and the python httpbin had its limits).
 
-This tools aims to test API client, it was not built to use in prod (though I cant imagine such an use case)
-You might want to check:
-
-- [PHPUnit integration](httpbin-phpunit-plugin)
-
+This tools aims to test API client, it was not built to use in production (though I cant imagine such an use case I prefer to warn you)
 
 Install
 -------
 
-Download the sources or install through composer
+Install it through composer
 
 
 Start the server...
 -------------------
 
-- ...via command line: ``php -S localhost:8000 -t www`` 
+- ...via command line: ``php -S localhost:8000 -t path/to/package/www`` 
 - ...via php: 
 
 ```php
